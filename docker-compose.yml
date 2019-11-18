@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  web:
+    build: .
+    expose:
+      - "8080"
+    depends_on:
+      - "ff"
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+  ff:
+    image: unleashorg/unleash-server:3.1
+    restart: always
+    expose:
+      - "4242"
+    depends_on:
+      - "db"
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/unleash
